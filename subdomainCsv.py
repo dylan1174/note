@@ -26,9 +26,9 @@ with open(file_path,'r') as csv_file:
 subdomains = []
 for i in range(1,len(sub_res)):
     if sub_res[i]['status'] == '200':
-        subdomains.append(sub_res[i]['subdomain'] + '\n')
+        subdomains.append('http://' + sub_res[i]['subdomain'] + '\n')
 
-
+subdomains = list(set(subdomains))
 print('共获得子域名' +str(len(subdomains)) + '个')
 
 with open(result_file_path,'w') as f:
